@@ -1,0 +1,64 @@
+CSS and Webfonts = 
+var css = 
+"<style>
+    div {
+        padding-left:4px;
+        padding-right:4px;
+        }
+    p {
+        font-size: 10pt;
+        }   
+    p.light {
+        font-weight: 300;
+        }
+    p.normal {
+        font-weight: 350;
+            }    
+    p.semibold {
+        font-weight: 400;
+            }
+    p.bold {
+        font-weight: 500;
+            }
+    p.extrabold {
+        font-weight: 700;
+            }   
+    p.superbold {
+        font-weight: 900;
+            } 
+    p.testUnusualFont {
+        font-family: 'Sofia'; 
+        }
+    .niceGoogleFont {
+       font-family: 'Raleway';
+        }
+    .story p {
+        line-height:1.7;
+        font-size 9pt;
+            }
+    .story h3 {
+        line-height:1.2;
+        font-weight:400;
+        font-size:14pt;
+        }
+  
+    span.colorEmphasis {
+        font-weight: 600;
+        color: #008479;
+        }
+    span.weightEmphasis {
+        font-weight: 600;
+        }  
+    svg {
+        width:80px;
+        }
+
+}
+  
+</style>"
+
+var fontLinks = "
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Sofia'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Raleway'>
+"
+return css & " " & fontLinks
