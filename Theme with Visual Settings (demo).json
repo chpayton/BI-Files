@@ -1,0 +1,308 @@
+{
+  "name": "Colors and Visual Settings (Christine)",
+  "dataColors": [
+    "#5b5b5b",
+    "#5C49EF",
+    "#8b4af0",
+    "#ac4af0",
+    "#9e9d9e",
+    "#229e6a",
+    "#e7b43f",
+    "#c8473c"
+  ],
+  "visualStyles": {
+    "*": {
+      "*": {
+        "smallMultiplesLayout": [
+          {
+            "gridLineType": "none"
+          }
+        ],
+        "mapControls": [
+          {
+            "autoZoom": true
+          }
+        ],
+        "mapStyles": [
+          {
+            "mapTheme": "grayscale"
+          }
+        ],
+        "valueAxis": [
+          {
+            "showAxisTitle": false,
+            "fontFamily": "Segoe UI",
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0.1
+                    }
+                  }
+                }
+              }
+            },
+            "gridlineShow": false,
+            "show": false
+          }
+        ],
+        "title": [
+          {
+            "fontFamily": "Segoe UI",
+            "fontSize": 12
+          }
+        ],
+        "text": [
+          {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0.1
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": 11
+          }
+        ],
+        "categoryAxis": [
+          {
+            "gridlineShow": false,
+            "fontFamily": "Segoe UI",
+            "titleFontFamily": "Segoe UI"
+          }
+        ],
+        "background": [
+          {
+            "show": false
+          }
+        ],
+        "grid": [
+          {
+            "gridHorizontal": false,
+            "gridVertical": false
+          }
+        ]
+      }
+    },
+    "shape": {
+      "*": {
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "visualHeader": [
+          {
+            "show": false
+          }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "categoryLabels": [
+          {
+            "fontFamily": "Segoe UI",
+            "fontSize": 12
+          }
+        ],
+        "labels": [
+          {
+            "fontSize": 20
+          }
+        ],
+        "visualHeader": [
+          {
+            "showCommentButton": false,
+            "showCopyVisualImageButton": false,
+            "showDrillToggleButton": false,
+            "showDrillRoleSelector": false,
+            "showDrillUpButton": false,
+            "showDrillDownExpandButton": false,
+            "showFilterRestatementButton": false,
+            "showFocusModeButton": false,
+            "showOptionsMenu": false,
+            "showPersonalizeVisualButton": false,
+            "showPinButton": false,
+            "showSeeDataLayoutToggleButton": false,
+            "show": false,
+            "showDrillDownLevelButton": false,
+            "showSmartNarrativeButton": false,
+            "showVisualErrorButton": false,
+            "showTooltipButton": false,
+            "showVisualInformationButton": false
+          }
+        ]
+      }
+    },
+    "multiRowCard": {
+      "*": {
+        "categoryLabels": [
+          {
+            "fontFamily": "Segoe UI",
+            "fontSize": 12
+          }
+        ],
+        "dataLabels": [
+          {
+            "fontSize": 20
+          }
+        ],
+        "visualHeader": [
+          {
+            "show": false
+          }
+        ],
+        "card": [
+          {
+            "barWeight": 4,
+            "barShow": true,
+            "barColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "total": [
+          {
+            "totals": false
+          }
+        ],
+        "padding": [
+          {
+            "top": 2,
+            "bottom": 2
+          }
+        ],
+        "border": [
+          {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "barChart": {
+      "*": {
+        "labels": [
+          {
+            "show": true,
+            "fontSize": 8
+          }
+        ],
+        "categoryAxis": [
+          {
+            "showAxisTitle": false,
+            "fontSize": 10
+          }
+        ]
+      }
+    },
+    "columnChart": {
+      "*": {
+        "labels": [
+          {
+            "fontSize": 8,
+            "showSeries": true
+          }
+        ]
+      }
+    },
+    "clusteredBarChart": {
+      "*": {
+        "labels": [
+          {
+            "showSeries": true,
+            "fontSize": 8
+          }
+        ],
+        "categoryAxis": [
+          {
+            "showAxisTitle": false
+          }
+        ]
+      }
+    },
+    "clusteredColumnChart": {
+      "*": {
+        "labels": [
+          {
+            "showSeries": true,
+            "fontSize": 8
+          }
+        ]
+      }
+    },
+    "hundredPercentStackedBarChart": {
+      "*": {
+        "labels": [
+          {
+            "show": true
+          }
+        ]
+      }
+    },
+    "pieChart": {
+      "*": {
+        "labels": [
+          {
+            "labelStyle": "Both"
+          }
+        ]
+      }
+    },
+    "donutChart": {
+      "*": {
+        "labels": [
+          {
+            "labelStyle": "Both"
+          }
+        ]
+      }
+    },
+    "slicer": {
+      "*": {
+        "selection": [
+          {
+            "singleSelect": false,
+            "selectAllCheckboxEnabled": true
+          }
+        ],
+        "visualHeader": [
+          {
+            "show": false
+          }
+        ]
+      }
+    }
+  }
+}
