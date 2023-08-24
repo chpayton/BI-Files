@@ -1,0 +1,4 @@
+if [value.dueDateTime] = null then false
+else if DateTime.Date(DateTime.LocalNow()) > [value.dueDateTime] and [value.percentComplete] <> 100 then true
+else if [value.completedDateTime] > [value.dueDateTime] then true
+else false
