@@ -1,0 +1,183 @@
+{
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "@@odata.etag": {
+                "type": "string"
+            },
+            "planId": {
+                "type": "string"
+            },
+            "bucketId": {
+                "type": "string"
+            },
+            "title": {
+                "type": "string"
+            },
+            "orderHint": {
+                "type": "string"
+            },
+            "assigneePriority": {
+                "type": "string"
+            },
+            "percentComplete": {
+                "type": "integer"
+            },
+            "startDateTime": {
+                "type": "string"
+            },
+            "createdDateTime": {
+                "type": "string"
+            },
+            "dueDateTime": {
+                "type": "string"
+            },
+            "hasDescription": {
+                "type": "boolean"
+            },
+            "previewType": {
+                "type": "string"
+            },
+            "referenceCount": {
+                "type": "integer"
+            },
+            "checklistItemCount": {
+                "type": "integer"
+            },
+            "activeChecklistItemCount": {
+                "type": "integer"
+            },
+            "priority": {
+                "type": "integer"
+            },
+            "id": {
+                "type": "string"
+            },
+            "createdBy": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "application": {
+                        "type": "object",
+                        "properties": {
+                            "displayName": {},
+                            "id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "appliedCategories": {
+                "type": "object",
+                "properties": {}
+            },
+            "_assignments": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "userId": {
+                            "type": "string"
+                        },
+                        "value": {
+                            "type": "object",
+                            "properties": {
+                                "@@odata.type": {
+                                    "type": "string"
+                                },
+                                "assignedDateTime": {
+                                    "type": "string"
+                                },
+                                "orderHint": {
+                                    "type": "string"
+                                },
+                                "assignedBy": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "application": {
+                                            "type": "object",
+                                            "properties": {
+                                                "displayName": {},
+                                                "id": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": [
+                        "userId",
+                        "value"
+                    ]
+                }
+            },
+            "completedDateTime": {
+                "type": "string"
+            },
+            "completedBy": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "displayName": {},
+                            "id": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "application": {
+                        "type": "object",
+                        "properties": {
+                            "displayName": {},
+                            "id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "required": [
+            "@@odata.etag",
+            "planId",
+            "bucketId",
+            "title",
+            "orderHint",
+            "assigneePriority",
+            "percentComplete",
+            "createdDateTime",
+            "hasDescription",
+            "previewType",
+            "referenceCount",
+            "checklistItemCount",
+            "activeChecklistItemCount",
+            "priority",
+            "id",
+            "createdBy",
+            "appliedCategories",
+            "assignments",
+            "_assignments"
+        ]
+    }
+}
