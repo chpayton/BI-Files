@@ -1,0 +1,22 @@
+﻿List Template Name,List Template ID,Base Type
+Custom List,100,0
+Document Library,101,1
+Survey,102,4
+Links,103,0
+Announcements,104,0
+Contacts,105,0
+Calendar,106,0
+Tasks,107,0
+Discussion Board,108,0
+Picture Library,109,1
+DataSources,110,1
+Form Library,115,1
+No Code Workflows,117,1
+Custom Workflow Process,118,0
+Wiki Page Library,119,1
+CustomGrid,120,0
+No Code Public Workflows<14>,122,1
+Workflow History,140,0
+Project Tasks,150,0
+Public Workflows External List<15>,600,0
+Issues Tracking,1100,5
