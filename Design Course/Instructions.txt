@@ -1,4 +1,4 @@
-After you download the .zip file, extract the files and:
+After you download the Data Files.zip, extract the files and:
 
 1. Import CSV files as Text/CSV sources. 
 3. Create a blank query and paste in the content of Date.txt for a date table.
