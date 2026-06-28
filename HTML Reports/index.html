@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HTML Reports</title>
+<style>
+  :root{ --bg:#f6f7f5; --panel:#fff; --ink:#16201a; --muted:#67756c; --line:#e4e8e3; --accent:#16a34a; }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#0f1411; --panel:#171e1a; --ink:#e8efe9; --muted:#93a39a; --line:#27302a; --accent:#34d27b; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5}
+  .wrap{max-width:760px; margin:0 auto; padding:48px 20px 80px}
+  h1{font-size:1.6rem; letter-spacing:-.02em; margin:0 0 4px}
+  .sub{color:var(--muted); margin-bottom:28px}
+  a.card{display:flex; gap:14px; align-items:center; text-decoration:none; color:inherit;
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:14px;
+    box-shadow:0 1px 2px rgba(20,40,30,.05),0 8px 24px rgba(20,40,30,.05); transition:transform .12s ease, border-color .12s ease}
+  a.card:hover{transform:translateY(-2px); border-color:var(--accent)}
+  .ico{font-size:1.8rem; flex:none}
+  .t{font-weight:700}
+  .d{color:var(--muted); font-size:.9rem; margin-top:2px}
+  footer{color:var(--muted); font-size:.8rem; margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>HTML Reports</h1>
+  <div class="sub">Self-contained interactive reports. Each is a static snapshot — no live data connection.</div>
+
+  <a class="card" href="veggie_report.html">
+    <span class="ico">🥗</span>
+    <span>
+      <div class="t">Refrigerated Veggie Combo Packs — AH vs DekaMarkt</div>
+      <div class="d">Pre-sliced fresh vegetable mixes: best-value ranking, price comparison, ingredient filter.</div>
+    </span>
+  </a>
+
+  <footer>Hosted on GitHub Pages.</footer>
+</div>
+</body>
+</html>

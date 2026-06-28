@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Refrigerated Veggie Combo Packs — AH vs DekaMarkt</title>
+<style>
+  :root{
+    --bg:#f6f7f5; --panel:#ffffff; --ink:#16201a; --muted:#67756c;
+    --line:#e4e8e3; --accent:#16a34a; --accent-soft:#dcfce7;
+    /* Official grocer brand colours: Albert Heijn #00ADE6, DekaMarkt #EE2E24.
+       *-ink variants are darkened for readable text on light backgrounds. */
+    --ah:#00ade6; --deka:#ee2e24; --ah-ink:#0a7fb3; --deka-ink:#d11c12;
+    --shadow:0 1px 2px rgba(20,40,30,.05),0 8px 24px rgba(20,40,30,.06);
+    --radius:16px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1411; --panel:#171e1a; --ink:#e8efe9; --muted:#93a39a;
+      --line:#27302a; --accent:#34d27b; --accent-soft:#13301f;
+      --ah:#00ade6; --deka:#ee2e24; --ah-ink:#5cc3ef; --deka-ink:#f4756c;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:32px 20px 80px}
+  header.page{margin-bottom:28px}
+  h1{font-size:1.7rem; margin:0 0 6px; letter-spacing:-.02em}
+  .sub{color:var(--muted); font-size:.92rem}
+  .sub b{color:var(--ink); font-weight:600}
+  h2{font-size:1.12rem; margin:0 0 14px; letter-spacing:-.01em; display:flex; align-items:center; gap:8px}
+  h2 .pill{font-size:.7rem; font-weight:600; color:var(--accent); background:var(--accent-soft);
+    padding:2px 9px; border-radius:999px; letter-spacing:.02em}
+  section{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; margin-bottom:22px; box-shadow:var(--shadow)}
+
+  /* KPI cards */
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px}
+  .kpi{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px; box-shadow:var(--shadow)}
+  .kpi .v{font-size:1.7rem; font-weight:700; letter-spacing:-.02em}
+  .kpi .l{color:var(--muted); font-size:.78rem; margin-top:2px}
+  @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}}
+
+  /* comparison */
+  .cmp{display:grid; grid-template-columns:1fr 1fr; gap:22px}
+  @media (max-width:720px){.cmp{grid-template-columns:1fr}}
+  .cmp h3{margin:0 0 12px; font-size:.85rem; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.04em}
+  .bar-row{display:flex; align-items:center; gap:10px; margin:9px 0}
+  .bar-row .tag{width:96px; font-size:.82rem; font-weight:600; flex:none}
+  .bar-track{flex:1; background:var(--line); border-radius:999px; height:22px; position:relative; overflow:hidden}
+  .bar-fill{height:100%; border-radius:999px; display:flex; align-items:center; justify-content:flex-end;
+    padding-right:8px; color:#fff; font-size:.74rem; font-weight:700; min-width:34px; transition:width .5s ease}
+  .legend{display:flex; gap:16px; font-size:.78rem; color:var(--muted); margin-top:6px}
+  .dot{display:inline-block; width:9px; height:9px; border-radius:3px; margin-right:5px; vertical-align:middle}
+
+  /* controls */
+  .controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:16px}
+  .controls input[type=search], .controls select{
+    font:inherit; padding:8px 11px; border:1px solid var(--line); border-radius:10px;
+    background:var(--bg); color:var(--ink)}
+  .controls input[type=search]{flex:1; min-width:160px}
+  .chk{display:flex; align-items:center; gap:6px; font-size:.85rem; color:var(--muted); cursor:pointer; user-select:none}
+  .chk input{accent-color:var(--accent); width:15px; height:15px}
+
+  /* table */
+  table{width:100%; border-collapse:collapse; font-size:.88rem}
+  thead th{text-align:left; font-size:.74rem; text-transform:uppercase; letter-spacing:.03em;
+    color:var(--muted); font-weight:600; padding:8px 10px; border-bottom:1px solid var(--line);
+    cursor:pointer; white-space:nowrap; user-select:none}
+  thead th.num{text-align:right}
+  thead th .arrow{opacity:.4; font-size:.7rem}
+  thead th[aria-sort] .arrow{opacity:1; color:var(--accent)}
+  tbody td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:middle}
+  tbody td.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+  tbody tr:hover{background:color-mix(in srgb, var(--accent) 6%, transparent)}
+  .store-chip{display:inline-block; font-size:.72rem; font-weight:600; padding:2px 8px; border-radius:999px}
+  .store-AH{color:var(--ah-ink); background:color-mix(in srgb,var(--ah) 16%, transparent)}
+  .store-DK{color:var(--deka-ink); background:color-mix(in srgb,var(--deka) 16%, transparent)}
+  /* brand logos */
+  .logo{display:inline-block; vertical-align:middle}
+  .cmp-title .logo-ah{height:30px; width:30px}
+  .cmp-title .logo-dk{height:25px; width:auto}
+  .cmp-title .vs{color:var(--muted); font-weight:600; font-size:.95rem; letter-spacing:.01em}
+  h2.cmp-title{flex-wrap:wrap; gap:11px}
+  .legend .logo-ah{height:19px; width:19px}
+  .legend .logo-dk{height:15px; width:auto}
+  .legend .lg-key{display:inline-flex; align-items:center}
+  .prod{display:flex; align-items:center; gap:12px}
+  .thumb{width:48px; height:48px; border-radius:10px; object-fit:contain; background:#fff;
+    border:1px solid var(--line); flex:none; padding:2px}
+  .thumb-ph{width:48px; height:48px; border-radius:10px; background:var(--bg); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex:none}
+  .name{font-weight:600}
+  .ingr{color:var(--muted); font-size:.8rem; display:block; margin-top:1px; max-width:480px}
+  td.rank{color:var(--muted); font-variant-numeric:tabular-nums; text-align:right; width:30px; font-size:.82rem; font-weight:600}
+  thead th.rank{cursor:default; text-align:right}
+  .ppk-cell{display:flex; align-items:center; gap:8px; justify-content:flex-end}
+  .ppk-bar{height:6px; border-radius:999px; background:var(--accent); flex:none}
+  .muted{color:var(--muted)}
+  .count{color:var(--muted); font-size:.82rem; font-weight:500}
+  .empty{padding:24px; text-align:center; color:var(--muted)}
+  footer{color:var(--muted); font-size:.78rem; text-align:center; margin-top:8px}
+  code{background:var(--bg); border:1px solid var(--line); padding:1px 6px; border-radius:6px; font-size:.85em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page">
+    <h1>🥗 Refrigerated Veggie Combo Packs</h1>
+    <div class="sub">Pre-sliced fresh vegetable mixes at <b>Albert Heijn</b> &amp; <b>DekaMarkt</b> ·
+      generated <span id="gen"></span> · source <code id="src"></code></div>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <h2 class="cmp-title">
+      <span id="ttl-ah"></span><span class="vs">vs</span><span id="ttl-dk"></span>
+      <span class="pill">price comparison</span></h2>
+    <div class="cmp">
+      <div>
+        <h3>Median price per kg</h3>
+        <div id="bars-med-ppk"></div>
+        <h3 style="margin-top:18px">Average price per kg</h3>
+        <div id="bars-avg-ppk"></div>
+      </div>
+      <div>
+        <h3>Median price per pack</h3>
+        <div id="bars-med-price"></div>
+        <h3 style="margin-top:18px">Average price per pack</h3>
+        <div id="bars-avg-price"></div>
+      </div>
+    </div>
+    <div class="legend">
+      <span class="lg-key" id="leg-ah"></span>
+      <span class="lg-key" id="leg-dk"></span>
+      <span class="muted" id="cmp-note"></span>
+    </div>
+  </section>
+
+  <section>
+    <h2>All veggie packs <span class="pill">sortable</span></h2>
+    <div class="controls">
+      <input type="search" id="q" placeholder="Search name or ingredient…">
+      <select id="store">
+        <option value="">All stores</option>
+        <option value="Albert Heijn">Albert Heijn</option>
+        <option value="DekaMarkt">DekaMarkt</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="cleanOnly"> Hide red onion / celery / celeriac</label>
+      <label class="chk"><input type="checkbox" id="hideNoPrice" checked> Hide rows without price</label>
+      <span class="count" id="tcount"></span>
+    </div>
+    <div style="overflow-x:auto">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th class="rank">#</th>
+            <th data-k="product_name">Product <span class="arrow">↕</span></th>
+            <th data-k="grocery_store">Store <span class="arrow">↕</span></th>
+            <th class="num" data-k="weight_grams">Weight <span class="arrow">↕</span></th>
+            <th class="num" data-k="price_2026">Price <span class="arrow">↕</span></th>
+            <th class="num" data-k="price_per_kg_2026">€ / kg <span class="arrow">↕</span></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>Static report from a live snapshot. Re-run <code>generate_report.py</code> to refresh.</footer>
+</div>
+
+<script>
+const DATA = {"rows": [{"id": 1, "product_name": "AH Roerbakgroente Hollands", "grocery_store": "Albert Heijn", "ingredients": "24% wortel, 16% bleekselderij, 16% rode paprika, 11% gele paprika, 11% broccoli, 11% sperziebonen, 11% bloemkool", "ingredients_en": "24% carrot, 16% celery, 16% red bell pepper, 11% yellow bell pepper, 11% broccoli, 11% green beans, 11% cauliflower", "price_2026": 2.49, "weight_grams": 400, "price_per_kg_2026": 6.23, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2592.jpg"}, {"id": 2, "product_name": "AH Roerbakgroente Italiaans", "grocery_store": "Albert Heijn", "ingredients": "27% prei, 18% wortel, 18% ui, 18% courgette, 18% rode paprika", "ingredients_en": "27% leek, 18% carrot, 18% onion, 18% zucchini, 18% red bell pepper", "price_2026": 2.49, "weight_grams": 400, "price_per_kg_2026": 6.23, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2589.jpg"}, {"id": 3, "product_name": "AH Roerbakgroente Italiaans kleinverpakking", "grocery_store": "Albert Heijn", "ingredients": "27% prei, 18% courgette, 18% rode paprika, 18% wortel, 18% ui", "ingredients_en": "27% leek, 18% zucchini, 18% red bell pepper, 18% carrot, 18% onion", "price_2026": 1.99, "weight_grams": 250, "price_per_kg_2026": 7.96, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2589.jpg"}, {"id": 4, "product_name": "AH Roerbakgroente Italiaans grootverpakking", "grocery_store": "Albert Heijn", "ingredients": "27% prei, 18% wortel, 18% courgette, 18% ui, 18% rode paprika", "ingredients_en": "27% leek, 18% carrot, 18% zucchini, 18% onion, 18% red bell pepper", "price_2026": 2.29, "weight_grams": 600, "price_per_kg_2026": 3.82, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2591.jpg"}, {"id": 5, "product_name": "AH Roerbakgroente Italiaans fijngesneden", "grocery_store": "Albert Heijn", "ingredients": "31% wortel, 23% sperzieboon, 15% rode paprika, 15% rode ui, 15% broccoli", "ingredients_en": "31% carrot, 23% green beans, 15% red bell pepper, 15% red onion, 15% broccoli", "price_2026": 2.99, "weight_grams": 400, "price_per_kg_2026": 7.48, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2594.jpg"}, {"id": 6, "product_name": "AH Roerbakgroente Italiaans champignons", "grocery_store": "Albert Heijn", "ingredients": "43% kastanjechampignon, 33% prei, 22% rode ui, 2,2% peterselie", "ingredients_en": "43% chestnut mushroom, 33% leek, 22% red onion, 2.2% parsley", "price_2026": 2.99, "weight_grams": 400, "price_per_kg_2026": 7.48, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2593.jpg"}, {"id": 7, "product_name": "AH Roerbakgroente Italiaans cavolo nero", "grocery_store": "Albert Heijn", "ingredients": "42% broccoli, 23% kastanjechampignon, 21% cavolo nero, 14% bosui", "ingredients_en": "42% broccoli, 23% chestnut mushroom, 21% cavolo nero, 14% spring onion", "price_2026": 2.49, "weight_grams": 400, "price_per_kg_2026": 6.23, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/715528.jpg"}, {"id": 8, "product_name": "AH Roerbakgroente Mexicaans", "grocery_store": "Albert Heijn", "ingredients": "28% witte kool, 21% prei, 17% mais, 14% sperzieboon, 11% kidneyboon, 9,3% rode paprika, water, zout, antioxidant (citroenzuur (E330)), calciumchloride (E509), calciumdinatrium-EDTA (E385)", "ingredients_en": "28% white cabbage, 21% leek, 17% corn, 14% green beans, 11% kidney beans, 9.3% red bell pepper, water, salt, antioxidant (citric acid (E330)), calcium chloride (E509), calcium disodium EDTA (E385)", "price_2026": 2.49, "weight_grams": 400, "price_per_kg_2026": 6.23, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2590.jpg"}, {"id": 9, "product_name": "AH Wokgroente Chinees", "grocery_store": "Albert Heijn", "ingredients": "25% witte kool, 25% rode paprika, 19% sperzieboon, 19% prei, 12% taugé", "ingredients_en": "25% white cabbage, 25% red bell pepper, 19% green beans, 19% leek, 12% bean sprouts", "price_2026": 2.49, "weight_grams": 400, "price_per_kg_2026": 6.23, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2572.jpg"}, {"id": 10, "product_name": "AH Wokgroente Chinees kleinverpakking", "grocery_store": "Albert Heijn", "ingredients": "25% rode paprika, 25% witte kool, 19% prei, 19% sperzieboon, 13% taugé", "ingredients_en": "25% red bell pepper, 25% white cabbage, 19% leek, 19% green beans, 13% bean sprouts", "price_2026": 1.99, "weight_grams": 250, "price_per_kg_2026": 7.96, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2581.jpg"}, {"id": 11, "product_name": "AH Wokgroente Chinees grootverpakking", "grocery_store": "Albert Heijn", "ingredients": "25% rode paprika, 25% witte kool, 19% prei, 19% sperzieboon, 13% taugé", "ingredients_en": "25% red bell pepper, 25% white cabbage, 19% leek, 19% green beans, 13% bean sprouts", "price_2026": 2.99, "weight_grams": 600, "price_per_kg_2026": 4.98, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2576.jpg"}, {"id": 12, "product_name": "AH Wokgroente Thais", "grocery_store": "Albert Heijn", "ingredients": "31% witte kool, 24% prei, 21% groene paprika, 21% rode ui, 3,1% rode peper", "ingredients_en": "31% white cabbage, 24% leek, 21% green bell pepper, 21% red onion, 3.1% red chili pepper", "price_2026": 2.39, "weight_grams": 400, "price_per_kg_2026": 5.98, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2573.jpg"}, {"id": 13, "product_name": "AH Wokgroente Thais grootverpakking", "grocery_store": "Albert Heijn", "ingredients": "31% witte kool, 24% prei, 21% groene paprika, 21% rode ui, 3,1% rode peper", "ingredients_en": "31% white cabbage, 24% leek, 21% green bell pepper, 21% red onion, 3.1% red chili pepper", "price_2026": 2.99, "weight_grams": 600, "price_per_kg_2026": 4.98, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2578.jpg"}, {"id": 14, "product_name": "AH Wokgroente Oosters", "grocery_store": "Albert Heijn", "ingredients": "24% rode ui, 19% paksoi, 18% prei, 16% spitskool, 12% rode paprika, 12% sojaboon", "ingredients_en": "24% red onion, 19% pak choi, 18% leek, 16% pointed cabbage, 12% red bell pepper, 12% soybeans", "price_2026": 2.59, "weight_grams": 400, "price_per_kg_2026": 6.48, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/729233.jpg"}, {"id": 15, "product_name": "AH Luxe wok Japans champignons peultjes", "grocery_store": "Albert Heijn", "ingredients": "23% rode ui, 18% paksoi, 17% prei, 17% gele wortel, 17% kastanjechampignon, 8% peul", "ingredients_en": "23% red onion, 18% pak choi, 17% leek, 17% yellow carrot, 17% chestnut mushroom, 8% mangetout", "price_2026": 2.99, "weight_grams": 400, "price_per_kg_2026": 7.48, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2574.jpg"}, {"id": 16, "product_name": "AH Luxe wok Japans sojabonen wortel", "grocery_store": "Albert Heijn", "ingredients": "40% paksoi, 25% witte kool, 18% wortel, 18% sojaboon", "ingredients_en": "40% pak choi, 25% white cabbage, 18% carrot, 18% soybeans", "price_2026": 3.09, "weight_grams": 400, "price_per_kg_2026": 7.73, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2580.jpg"}, {"id": 17, "product_name": "AH Luxe wok Japans", "grocery_store": "Albert Heijn", "ingredients": "36% Chinese kool, 23% rode ui, 18% paksoi, 18% shiitake, 3,4% rode chilipeper, 2,3% gember", "ingredients_en": "36% Chinese cabbage, 23% red onion, 18% pak choi, 18% shiitake, 3.4% red chili pepper, 2.3% ginger", "price_2026": 3.59, "weight_grams": 400, "price_per_kg_2026": 8.98, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/715535.jpg"}, {"id": 18, "product_name": "AH Luxe wokgroente Chinees", "grocery_store": "Albert Heijn", "ingredients": "34% Chinese kool, 31% courgette, 22% broccoli, 5,2% bosui, 3,1% rode peper, 2,1% gember, 2,1% knoflook", "ingredients_en": "34% Chinese cabbage, 31% zucchini, 22% broccoli, 5.2% spring onion, 3.1% red chili pepper, 2.1% ginger, 2.1% garlic", "price_2026": 3.59, "weight_grams": 400, "price_per_kg_2026": 8.98, "image_url": null}, {"id": 19, "product_name": "AH Hutspot", "grocery_store": "Albert Heijn", "ingredients": "60% wortel, 40% ui", "ingredients_en": "60% carrot, 40% onion", "price_2026": 1.69, "weight_grams": 500, "price_per_kg_2026": 3.38, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2510.jpg"}, {"id": 20, "product_name": "AH Hutspot grootverpakking", "grocery_store": "Albert Heijn", "ingredients": "60% wortel, 40% ui", "ingredients_en": "60% carrot, 40% onion", "price_2026": 1.99, "weight_grams": 1000, "price_per_kg_2026": 1.99, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2510.jpg"}, {"id": 21, "product_name": "AH Boeren soepgroente", "grocery_store": "Albert Heijn", "ingredients": "27% prei, 24% bleekselderij, 18% wortel, 12% bloemkool, 12% rode paprika, 8,3% selderij", "ingredients_en": "27% leek, 24% celery, 18% carrot, 12% cauliflower, 12% red bell pepper, 8.3% leaf celery", "price_2026": 1.99, "weight_grams": 350, "price_per_kg_2026": 5.69, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2622.jpg"}, {"id": 22, "product_name": "AH Fijne soepgroente", "grocery_store": "Albert Heijn", "ingredients": "34% wortel, 25% prei, 24% selderij, 17% bloemkool (bloemkoolblad en roosjes in wisselende verhoudingen)", "ingredients_en": "34% carrot, 25% leek, 24% celery, 17% cauliflower (cauliflower leaf and florets in varying proportions)", "price_2026": 1.29, "weight_grams": 250, "price_per_kg_2026": 5.16, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2624.jpg"}, {"id": 23, "product_name": "AH Fijne soepgroente grootverpakking", "grocery_store": "Albert Heijn", "ingredients": "34% wortel, 25% prei, 24% selderij, 17% bloemkool (bloemkoolblad en roosjes in wisselende verhoudingen)", "ingredients_en": "34% carrot, 25% leek, 24% celery, 17% cauliflower (cauliflower leaf and florets in varying proportions)", "price_2026": 1.99, "weight_grams": 400, "price_per_kg_2026": 4.98, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2621.jpg"}, {"id": 24, "product_name": "AH Basis soepgroente", "grocery_store": "Albert Heijn", "ingredients": "49% prei, 29% wortel, 13% bloemkool, 9,1% selderij", "ingredients_en": "49% leek, 29% carrot, 13% cauliflower, 9.1% celery", "price_2026": 1.29, "weight_grams": 400, "price_per_kg_2026": 3.23, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2623.jpg"}, {"id": 25, "product_name": "AH Soepgroenten luxe", "grocery_store": "Albert Heijn", "ingredients": "24% prei, 23% bleekselderij, 17% wortel, 12% tuinerwt, 12% bloemkool, 6% tomaat, 6% selderij", "ingredients_en": "24% leek, 23% celery, 17% carrot, 12% garden peas, 12% cauliflower, 6% tomato, 6% leaf celery", "price_2026": 1.99, "weight_grams": 450, "price_per_kg_2026": 4.42, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2633.jpg"}, {"id": 26, "product_name": "AH Erwtensoepgroente", "grocery_store": "Albert Heijn", "ingredients": "35% prei, 24% wortel, 20% knolselderij, 16% witte ui, 5,5% bladselderij, antioxidant (citroenzuur (E330))", "ingredients_en": "35% leek, 24% carrot, 20% celeriac, 16% white onion, 5.5% leaf celery, antioxidant (citric acid (E330))", "price_2026": 2.19, "weight_grams": 500, "price_per_kg_2026": 4.38, "image_url": "https://www.ah-boodschappen.nl/storage/product-image/poster/2625.jpg"}, {"id": 27, "product_name": "Roerbakgroente champignon", "grocery_store": "DekaMarkt", "ingredients": "43% kastanjechampignons, 32% prei, 22% rode ui, peterselie", "ingredients_en": "43% chestnut mushrooms, 32% leek, 22% red onion, parsley", "price_2026": 1.79, "weight_grams": 250, "price_per_kg_2026": 7.16, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224520_1_453799_638810238257471279.png?width=500&height=500&mode=crop"}, {"id": 28, "product_name": "Roerbakgroente champignon", "grocery_store": "DekaMarkt", "ingredients": "43% kastanjechampignons, 32% prei, 22% rode ui, peterselie", "ingredients_en": "43% chestnut mushrooms, 32% leek, 22% red onion, parsley", "price_2026": 1.79, "weight_grams": 400, "price_per_kg_2026": 4.48, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224521_1_453800_638810241754761095.png?width=500&height=500&mode=crop"}, {"id": 29, "product_name": "Roerbakgroente chinese stijl", "grocery_store": "DekaMarkt", "ingredients": "26% witte kool, prei, 19% sperziebonen, 16% taugé, rode paprika", "ingredients_en": "26% white cabbage, leek, 19% green beans, 16% bean sprouts, red bell pepper", "price_2026": 1.89, "weight_grams": 250, "price_per_kg_2026": 7.56, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224522_1_453801_638810862476868590.png?width=500&height=500&mode=crop"}, {"id": 30, "product_name": "Roerbakgroente chinese stijl", "grocery_store": "DekaMarkt", "ingredients": "26% witte kool, prei, 19% sperziebonen, 16% taugé, rode paprika", "ingredients_en": "26% white cabbage, leek, 19% green beans, 16% bean sprouts, red bell pepper", "price_2026": 1.79, "weight_grams": 400, "price_per_kg_2026": 4.48, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/165565_1_453802_638288130866272235.png?width=500&height=500&mode=crop"}, {"id": 31, "product_name": "Roerbakgroente italiaanse stijl", "grocery_store": "DekaMarkt", "ingredients": "24% prei, 19% courgette, ui, 19% rode paprika, wortel", "ingredients_en": "24% leek, 19% zucchini, onion, 19% red bell pepper, carrot", "price_2026": 1.89, "weight_grams": 250, "price_per_kg_2026": 7.56, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224531_1_453861_638810241744852129.png?width=500&height=500&mode=crop"}, {"id": 32, "product_name": "Roerbakgroente italiaanse stijl", "grocery_store": "DekaMarkt", "ingredients": "24% prei, 19% courgette, ui, 19% rode paprika, wortel", "ingredients_en": "24% leek, 19% zucchini, onion, 19% red bell pepper, carrot", "price_2026": 1.79, "weight_grams": 400, "price_per_kg_2026": 4.48, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/165579_1_453862_638288130886962470.png?width=500&height=500&mode=crop"}, {"id": 33, "product_name": "Roerbakgroente italiaanse stijl voordeel", "grocery_store": "DekaMarkt", "ingredients": "24% prei, 19% courgette, ui, 19% rode paprika, wortel", "ingredients_en": "24% leek, 19% zucchini, onion, 19% red bell pepper, carrot", "price_2026": 2.99, "weight_grams": 600, "price_per_kg_2026": 4.98, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224532_1_453863_638810241736750457.png?width=500&height=500&mode=crop"}, {"id": 34, "product_name": "Fijne wokgroente", "grocery_store": "DekaMarkt", "ingredients": "21% witte kool, 17% prei, 17% rode paprika, rode ui, broccoli, courgette", "ingredients_en": "21% white cabbage, 17% leek, 17% red bell pepper, red onion, broccoli, zucchini", "price_2026": 1.79, "weight_grams": 250, "price_per_kg_2026": 7.16, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224523_1_453804_638810862470895971.png?width=500&height=500&mode=crop"}, {"id": 35, "product_name": "Wokgroente fijne", "grocery_store": "DekaMarkt", "ingredients": "21% witte kool, 17% prei, 17% rode paprika, rode ui, broccoli, courgette", "ingredients_en": "21% white cabbage, 17% leek, 17% red bell pepper, red onion, broccoli, zucchini", "price_2026": 1.79, "weight_grams": 400, "price_per_kg_2026": 4.48, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224524_1_453805_638810241725785802.png?width=500&height=500&mode=crop"}, {"id": 36, "product_name": "Wokgroente japanse stijl", "grocery_store": "DekaMarkt", "ingredients": "rode ui, 18% paksoi, prei, 17% gele wortel, 17% kastanjechampignons, 8% peulen", "ingredients_en": "red onion, 18% pak choi, leek, 17% yellow carrot, 17% chestnut mushrooms, 8% mangetout", "price_2026": 2.49, "weight_grams": 400, "price_per_kg_2026": 6.23, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/165581_1_453864_638242435427674630.png?width=500&height=500&mode=crop"}, {"id": 37, "product_name": "Oosterse wokgroente", "grocery_store": "DekaMarkt", "ingredients": "rode ui, prei, 21% paksoi, 15% rode paprika, witte kool, 10% sojabonen", "ingredients_en": "red onion, leek, 21% pak choi, 15% red bell pepper, white cabbage, 10% soybeans", "price_2026": 2.59, "weight_grams": 400, "price_per_kg_2026": 6.48, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/165598_1_454144_638242435489164956.png?width=500&height=500&mode=crop"}, {"id": 38, "product_name": "Fresh & easy Wokgroenten oosterse stijl", "grocery_store": "DekaMarkt", "ingredients": "30% taugé, witte kool, rode paprika, prei", "ingredients_en": "30% bean sprouts, white cabbage, red bell pepper, leek", "price_2026": 2.59, "weight_grams": 400, "price_per_kg_2026": 6.48, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/196030_1_455980_638578410718768224.png?width=500&height=500&mode=crop"}, {"id": 39, "product_name": "Wokgroente oosterse stijl sugar snaps", "grocery_store": "DekaMarkt", "ingredients": "25% rode ui, 25% paksoi, 19% Chinese kool, 16% sugarsnaps, 15% taugé", "ingredients_en": "25% red onion, 25% pak choi, 19% Chinese cabbage, 16% sugar snap peas, 15% bean sprouts", "price_2026": 2.99, "weight_grams": 400, "price_per_kg_2026": 7.48, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224636_1_471080_638810244324762322.png?width=500&height=500&mode=crop"}, {"id": 40, "product_name": "Wokgroente chinese stijl", "grocery_store": "DekaMarkt", "ingredients": "26% witte kool, prei, 19% sperziebonen, 16% taugé, paprika", "ingredients_en": "26% white cabbage, leek, 19% green beans, 16% bean sprouts, bell pepper", "price_2026": 2.79, "weight_grams": 600, "price_per_kg_2026": 4.65, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/223460_1_477421_638798754370226624.png?width=500&height=500&mode=crop"}, {"id": 41, "product_name": "Wokgroente thaise stijl", "grocery_store": "DekaMarkt", "ingredients": "33% witte kool, 25% prei, groene paprika, rode ui, 3% rode peper", "ingredients_en": "33% white cabbage, 25% leek, green bell pepper, red onion, 3% red chili pepper", "price_2026": 2.19, "weight_grams": 400, "price_per_kg_2026": 5.48, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/165616_1_454203_638242435499509535.png?width=500&height=500&mode=crop"}, {"id": 42, "product_name": "Nasi bami groente", "grocery_store": "DekaMarkt", "ingredients": "34% spitskool, 26% prei, 16% taugé, wortel, ui", "ingredients_en": "34% pointed cabbage, 26% leek, 16% bean sprouts, carrot, onion", "price_2026": 1.49, "weight_grams": 250, "price_per_kg_2026": 5.96, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224647_1_472691_638810244333754626.png?width=500&height=500&mode=crop"}, {"id": 43, "product_name": "Bami-nasi groente", "grocery_store": "DekaMarkt", "ingredients": "spitskool, prei, taugé, ui, wortel, rode peper", "ingredients_en": "pointed cabbage, leek, bean sprouts, onion, carrot, red chili pepper", "price_2026": 1.79, "weight_grams": 450, "price_per_kg_2026": 3.98, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/224646_1_472689_638810862504332418.png?width=500&height=500&mode=crop"}, {"id": 44, "product_name": "Macaroni spaghetti groente", "grocery_store": "DekaMarkt", "ingredients": "prei, ui, paprika", "ingredients_en": "leek, onion, bell pepper", "price_2026": 1.49, "weight_grams": 250, "price_per_kg_2026": 5.96, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/205114_1_472688_638666787520840355.png?width=500&height=500&mode=crop"}, {"id": 45, "product_name": "Macaroni-spaghetti groente", "grocery_store": "DekaMarkt", "ingredients": "prei, ui, paprika", "ingredients_en": "leek, onion, bell pepper", "price_2026": 1.79, "weight_grams": 450, "price_per_kg_2026": 3.98, "image_url": "https://web-fileserver.dekamarkt.nl/artikelen/204982_1_472690_638665041709601155.png?width=500&height=500&mode=crop"}], "exclude": ["red onion", "celery", "celeriac"], "generated": "28 June 2026, 04:58", "source": "food · misc.veggie_combo_packs"};
+const rows = DATA.rows;
+const EXCLUDE = DATA.exclude.map(s => s.toLowerCase());
+const eur = n => n == null ? "—" : "€" + n.toFixed(2);
+const shortStore = s => s === "Albert Heijn" ? "AH" : "DK";
+
+/* Inline brand logos (faithful recreations in official colours, kept exact in
+   both themes): Albert Heijn = white "ah" on a #00ADE6 rounded square;
+   DekaMarkt = #EE2E24 wordmark. Self-contained, no external assets. */
+const LOGO_AH = `<svg class="logo logo-ah" viewBox="0 0 40 40" role="img" aria-label="Albert Heijn">
+  <rect width="40" height="40" rx="8" fill="#00ade6"/>
+  <text x="20" y="29.5" text-anchor="middle" fill="#fff"
+    font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,sans-serif" font-size="23" font-weight="800">ah</text></svg>`;
+const LOGO_DK = `<svg class="logo logo-dk" viewBox="0 0 176 34" role="img" aria-label="DekaMarkt">
+  <text x="1" y="27" fill="#ee2e24"
+    font-family="'Trebuchet MS','Helvetica Neue',Arial,sans-serif" font-size="29" font-weight="800" letter-spacing="-1">DekaMarkt</text></svg>`;
+
+document.getElementById("ttl-ah").innerHTML = LOGO_AH;
+document.getElementById("ttl-dk").innerHTML = LOGO_DK;
+document.getElementById("leg-ah").innerHTML = LOGO_AH;
+document.getElementById("leg-dk").innerHTML = LOGO_DK;
+
+document.getElementById("gen").textContent = DATA.generated;
+document.getElementById("src").textContent = DATA.source;
+
+const isClean = r => {
+  const t = (r.ingredients_en || "").toLowerCase();
+  return !EXCLUDE.some(e => t.includes(e));
+};
+const median = a => {
+  if (!a.length) return null;
+  const s = [...a].sort((x,y)=>x-y), m = s.length>>1;
+  return s.length % 2 ? s[m] : (s[m-1]+s[m]) / 2;
+};
+const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : null;
+const priced = rows.filter(r => r.price_per_kg_2026 != null);
+
+/* Conditional colour scale for €/kg: green (cheapest) -> amber -> red (priciest),
+   anchored to the full dataset so colours stay stable as you filter/sort. */
+const ppkVals = priced.map(r => r.price_per_kg_2026);
+const PPK_MIN = ppkVals.length ? Math.min(...ppkVals) : 0;
+const PPK_MAX = ppkVals.length ? Math.max(...ppkVals) : 1;
+const ppkColor = v => {
+  const t = PPK_MAX > PPK_MIN ? (v - PPK_MIN) / (PPK_MAX - PPK_MIN) : 0;
+  return `hsl(${(135 - 135 * t).toFixed(0)} 68% 45%)`;   // 135=green … 0=red
+};
+
+/* ---------- KPI cards ---------- */
+const cheapest = priced.reduce((b,r)=> b && b.price_per_kg_2026 <= r.price_per_kg_2026 ? b : r, null);
+const kpis = [
+  ["Total packs", rows.length],
+  ["Albert Heijn", rows.filter(r=>r.grocery_store==="Albert Heijn").length],
+  ["DekaMarkt", rows.filter(r=>r.grocery_store==="DekaMarkt").length],
+  ["Cheapest €/kg", cheapest ? eur(cheapest.price_per_kg_2026) : "—"],
+];
+document.getElementById("kpis").innerHTML = kpis
+  .map(([l,v]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+
+/* ---------- comparison bars ---------- */
+const stats = store => {
+  const set = priced.filter(r => r.grocery_store === store);
+  return {
+    ppk: set.map(r=>r.price_per_kg_2026),
+    price: set.map(r=>r.price_2026),
+  };
+};
+const ah = stats("Albert Heijn"), dk = stats("DekaMarkt");
+function drawBars(elId, ahVal, dkVal){
+  const max = Math.max(ahVal, dkVal) * 1.15 || 1;
+  const row = (cls, label, val) =>
+    `<div class="bar-row"><span class="tag">${label}</span>
+       <div class="bar-track"><div class="bar-fill" style="width:${(val/max*100).toFixed(1)}%;background:var(--${cls})">${eur(val)}</div></div>
+     </div>`;
+  document.getElementById(elId).innerHTML = row("ah","Albert Heijn",ahVal) + row("deka","DekaMarkt",dkVal);
+}
+drawBars("bars-med-ppk", median(ah.ppk), median(dk.ppk));
+drawBars("bars-avg-ppk", avg(ah.ppk), avg(dk.ppk));
+drawBars("bars-med-price", median(ah.price), median(dk.price));
+drawBars("bars-avg-price", avg(ah.price), avg(dk.price));
+document.getElementById("cmp-note").textContent =
+  `based on ${priced.length} priced packs (${ah.ppk.length} AH, ${dk.ppk.length} DK)`;
+
+/* ---------- best-value table ---------- */
+let sortKey = "price_per_kg_2026", sortDir = 1;   // 1 asc, -1 desc
+const q = document.getElementById("q"), storeSel = document.getElementById("store");
+const cleanOnly = document.getElementById("cleanOnly"), hideNoPrice = document.getElementById("hideNoPrice");
+
+function renderTable(){
+  const term = q.value.trim().toLowerCase();
+  let list = rows.filter(r => {
+    if (storeSel.value && r.grocery_store !== storeSel.value) return false;
+    if (cleanOnly.checked && !isClean(r)) return false;
+    if (hideNoPrice.checked && r.price_per_kg_2026 == null) return false;
+    if (term){
+      const hay = (r.product_name + " " + (r.ingredients_en||"") + " " + (r.ingredients||"")).toLowerCase();
+      if (!hay.includes(term)) return false;
+    }
+    return true;
+  });
+  list.sort((a,b)=>{
+    let x=a[sortKey], y=b[sortKey];
+    if (x==null) return 1; if (y==null) return -1;          // nulls always last
+    if (typeof x === "string") return x.localeCompare(y)*sortDir;
+    return (x-y)*sortDir;
+  });
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = list.length ? list.map((r,i)=>{
+    const cls = r.grocery_store==="Albert Heijn"?"store-AH":"store-DK";
+    let ppk = '<span class="muted">—</span>';
+    if (r.price_per_kg_2026!=null){
+      const barW = (r.price_per_kg_2026/PPK_MAX*70+8).toFixed(0);
+      const col = ppkColor(r.price_per_kg_2026);
+      ppk = `<div class="ppk-cell"><span class="ppk-bar" style="width:${barW}px;background:${col}"></span><b style="color:${col}">${eur(r.price_per_kg_2026)}</b></div>`;
+    }
+    const thumb = r.image_url
+      ? `<img class="thumb" src="${r.image_url}" loading="lazy" alt="${r.product_name}">`
+      : `<div class="thumb-ph" title="no image">🥗</div>`;
+    return `<tr>
+      <td class="rank">${i+1}</td>
+      <td><div class="prod">${thumb}<div>
+          <span class="name">${r.product_name}</span>
+          <span class="ingr">${r.ingredients_en||""}</span></div></div></td>
+      <td><span class="store-chip ${cls}">${r.grocery_store}</span></td>
+      <td class="num">${r.weight_grams} g</td>
+      <td class="num">${eur(r.price_2026)}</td>
+      <td class="num">${ppk}</td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="6" class="empty">No packs match these filters.</td></tr>`;
+  document.getElementById("tcount").textContent = `${list.length} of ${rows.length} packs`;
+  document.querySelectorAll("#tbl thead th[data-k]").forEach(th=>{
+    th.removeAttribute("aria-sort");
+    const a = th.querySelector(".arrow");
+    if (th.dataset.k===sortKey){ th.setAttribute("aria-sort", sortDir===1?"ascending":"descending");
+      a.textContent = sortDir===1?"↑":"↓"; } else if (a) a.textContent="↕";
+  });
+}
+document.querySelectorAll("#tbl thead th[data-k]").forEach(th=>{
+  th.addEventListener("click", ()=>{
+    const k = th.dataset.k;
+    if (k===sortKey) sortDir*=-1; else { sortKey=k; sortDir=1; }
+    renderTable();
+  });
+});
+[q, storeSel, cleanOnly, hideNoPrice].forEach(el=>el.addEventListener("input", renderTable));
+renderTable();
+</script>
+</body>
+</html>
